@@ -32,7 +32,7 @@ class Main extends PluginBase{
 
             if($task != null && $ticks >= 0 && $this->taskStatus == false){
                 $this->getServer()->getScheduler()->scheduleRepeatingTask($task, ($ticks * 20));
-                $this->debugMessage("Starting schedule...", new ConsoleCommandSender());
+                $this->debugMessage("Starting schedule...");
                 $this->taskStatus = true;
             }else{
                 $this->getLogger()->info($this->getPrefix() . C::RED . "ERROR! Ticks can't be negative or you already start a schedule!");
@@ -55,15 +55,19 @@ class Main extends PluginBase{
             switch(strtolower($args[0])){
                 case "h":
                 case "help":
-                    $sender->sendMessage(C::AQUA . "========<PocketMine-ManagerServers>========");
-                    $sender->sendMessage("§d/pmms help§f: List of commands");
-                    $sender->sendMessage("§d/pmms start §o[seconds] [override(true/false)]§r§f: Start the schedule for execute commands from plugin's directory");
-                    $sender->sendMessage("§d/pmms stop§f: Stop the service of commands");
-                    $sender->sendMessage("§d/pmms list§f: Show list of commands that will be executed");
-                    $sender->sendMessage("§d/pmms debug§f: Enable/Disable debug messages of plugin");
-                    $sender->sendMessage("§d/pmms status§f: Show the status of plugin");
-                    $sender->sendMessage("§d/pmms reload§f: Reload configuration");
-                    $sender->sendMessage("§d/pmms info§f: Show information of plugin");
+                    if($sender->hasPermission("pmms.command.help")){
+                        $sender->sendMessage(C::AQUA . "========<PocketMine-ManagerServers>========");
+                        $sender->sendMessage("§d/pmms help§f: List of commands");
+                        $sender->sendMessage("§d/pmms start §o[seconds] [override(true/false)]§r§f: Start the schedule for execute commands from plugin's directory");
+                        $sender->sendMessage("§d/pmms stop§f: Stop the service of commands");
+                        $sender->sendMessage("§d/pmms queue§f: Show list of commands that will be executed");
+                        $sender->sendMessage("§d/pmms debug§f: Enable/Disable debug messages of plugin");
+                        $sender->sendMessage("§d/pmms status§f: Show the status of plugin");
+                        $sender->sendMessage("§d/pmms reload§f: Reload configuration");
+                        $sender->sendMessage("§d/pmms info§f: Show information of plugin");
+                    }else{
+                        $sender->sendMessage(C::RED . "You don't have permission to use this command!");
+                    }
                     break;
                 case "start":
                     if($sender->hasPermission("pmms.command.start")){
@@ -152,8 +156,8 @@ class Main extends PluginBase{
                         $sender->sendMessage(C::RED . "You don't have permission to use this command!");
                     }
                     break;
-                case "list":
-                    if($sender->hasPermission("pmms.command.list")){
+                case "queue":
+                    if($sender->hasPermission("pmms.command.queue")){
                         $sender->sendMessage($this->getPrefix() . C::ITALIC . C::GREEN. "List of commands in queue:");
                         if(empty($this->getCommands())){
                             $sender->sendMessage(C::RED . "No commands in queue.");
@@ -210,7 +214,7 @@ class Main extends PluginBase{
                 while(($file = readdir($directory_handle)) !== false){
                     if((!is_dir($file)) & ($file!=".") & ($file!= "..") & ($file != "config.yml")){
                         $str = $file;
-                        $this->debugMessage("Found file...", new ConsoleCommandSender());
+                        $this->debugMessage("Found file...");
                         $result[$c] = $str;
                         ++$c;
                     }
@@ -272,17 +276,10 @@ class Main extends PluginBase{
     
     /**
      * @param string $message
-     * @param CommandSender $sender
      */
-    public function debugMessage(string $message, CommandSender $sender){
+    public function debugMessage(string $message){
         if($this->isDebug()){
-            if($sender instanceof ConsoleCommandSender){
-                $this->getLogger()->info($this->getPrefix() . C::ITALIC . C::GRAY . $message);
-            }else if($sender instanceof CommandSender){
-                if($sender->hasPermission("pmms.command.debug")){
-                    $sender->sendMessage($this->getPrefix() . C::ITALIC . C::GRAY . $message);
-                }
-            }
+            $this->getLogger()->info($this->getPrefix() . C::ITALIC . C::GRAY . $message);
         }
     }
 

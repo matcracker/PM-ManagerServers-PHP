@@ -1,5 +1,5 @@
 name: PMManagerServers
-author: [matcracker]
+author: matcracker
 version: 1.0.0
 api: [2.0.0]
 main: matcracker\PMManagerServers\Main
@@ -19,7 +19,7 @@ permissions:
         pmms.command.stop:
           default: op
           description: Give permission to stop the executor
-        pmms.command.list:
+        pmms.command.queue:
           default: op
           description: Give permission to show list of commands to execute
         pmms.command.status:

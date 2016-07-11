@@ -26,9 +26,10 @@ class Task extends PluginTask{
     public function onRun($ticks){
         $pfx = $this->plugin->getPrefix();
         
-        $this->plugin->debugMessage("[Spam] Checking for commands...", $this->sender);
+        $this->plugin->debugMessage("[Spam] Checking for commands...");
         if(count($this->plugin->getCommands()) > 0 || $this->plugin->isOverrided()){
             foreach($this->plugin->getCommands() as $cmd) {
+                $this->plugin->debugMessage("[Spam] Found! Executing /" . $cmd . "...");
                 $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
                 unlink($this->plugin->getDataFolder() . $cmd);
                 $this->sender->sendMessage($pfx . C::GREEN . "Executed command: " . $cmd);
@@ -37,6 +38,7 @@ class Task extends PluginTask{
             $this->sender->sendMessage($pfx . C::RED . "Any commands to be executed");
             $this->plugin->getServer()->getScheduler()->cancelTasks($this->plugin);
         }
+        $this->plugin->debugMessage("[Spam] No commands found. Try to re-check others...");
     }
     
 }
