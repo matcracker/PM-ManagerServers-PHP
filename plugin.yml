@@ -1,0 +1,39 @@
+name: PMManagerServers
+author: [matcracker]
+version: 1.0.0
+api: [2.0.0]
+main: matcracker\PMManagerServers\Main
+
+commands:
+    pmms:
+      description: Command of PM-ManagerServers
+
+permissions:
+    pmms.command.all:
+      default: op
+      description: Give all the permission of plugin
+      children:
+        pmms.command.start:
+          default: op
+          description: Give permission to start the executor
+        pmms.command.stop:
+          default: op
+          description: Give permission to stop the executor
+        pmms.command.list:
+          default: op
+          description: Give permission to show list of commands to execute
+        pmms.command.status:
+          default: op
+          description: Give permission to show the status of plugin
+        pmms.command.debug:
+          default: op
+          description: Give permission to show and use debug command and messages
+        pmms.command.reload:
+          default: op
+          description: Give permission to reload the config
+        pmms.command.help:
+          default: op
+          description: Give permission to show help page
+        pmms.command.info:
+          default: op
+          description: Give permission to show info about plugin

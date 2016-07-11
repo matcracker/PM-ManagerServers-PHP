@@ -1,0 +1,12 @@
+#PocketMine-ManagerServers plugin configuration
+
+#Enable or disable the executor on start of plugin
+enable-onStart: false
+#Time between the scheduler is refreshed
+#Minor are the seconds, major the lag can happened
+time: 5
+#If override is enabled, if there aren't command to be executed the schedule will be stopped
+override: true
+
+#This show all debug messagges (can cause spam on console or in-game for who have permission)
+debug: false
