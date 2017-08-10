@@ -3,9 +3,12 @@
 /**
  * @author matcracker
  * Plugin for PocketMine
- * Version 1.0
- * API: 2.0.0
+ * Version 1.1
+ * API: 3.0.0-ALPHA6, 3.0.0-ALPHA7
  */
+
+declare(strict_types = 1);
+
 namespace matcracker\PMManagerServers;
 
 use pocketmine\command\CommandSender;
@@ -23,7 +26,7 @@ class Task extends PluginTask{
         $this->sender = $sender;
     }
     
-    public function onRun($ticks){
+    public function onRun(int $currentTick){
         $pfx = $this->plugin->getPrefix();
         
         $this->plugin->debugMessage("[Spam] Checking for commands...");

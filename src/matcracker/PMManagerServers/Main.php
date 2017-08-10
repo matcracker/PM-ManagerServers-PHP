@@ -2,9 +2,11 @@
 /**
  * @author matcracker
  * Plugin for PocketMine
- * Version 1.0
- * API: 2.0.0
+ * Version 1.1
+ * API: 3.0.0-ALPHA6, 3.0.0-ALPHA7
  */
+
+declare(strict_types = 1);
 
 namespace matcracker\PMManagerServers;
 
@@ -46,7 +48,7 @@ class Main extends PluginBase{
         $this->getLogger()->info(C::GREEN . "PM-ManagerServers disabled successfully!");
     }
 
-    public function onCommand(CommandSender $sender, Command $command, $lbl, array $args){
+    public function onCommand(CommandSender $sender, Command $command, string $lbl, array $args){
         $cmd = strtolower($command->getName());
         if($cmd === "pmms"){
             if(!isset($args[0]) || empty($args[0]))
@@ -196,6 +198,7 @@ class Main extends PluginBase{
                     break;
                 default:
                     $sender->sendMessage($this->getPrefix() .  C::RED . "Use /pmms help for the list of commands");
+                    break;
             }
             return true;
         }
@@ -203,9 +206,9 @@ class Main extends PluginBase{
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getCommands(){
+    public function getCommands() : array{
         $dir = $this->getDataFolder();
         $result = [];
         $c = 0;
@@ -225,58 +228,37 @@ class Main extends PluginBase{
         return $result;
     }
     
-    public function getPrefix(){
+    public function getPrefix() : string{
         return self::pfx;
     }
     
-    /**
-     * @return int
-     */
-    public function getTime(){
+    public function getTime() : int{
         return (int) $this->getConfig()->get("time");
     }
-
-    /**
-     * @param int $time
-     */
+    
     public function setTime(int $time){
         $this->getConfig()->set("time", $time);
         $this->saveConfig();
     }
-
-    /**
-     * @return bool
-     */
-    public function isOverrided(){
-        return $this->getConfig()->get("override");
+    
+    public function isOverrided() : bool{
+        return (bool)$this->getConfig()->get("override");
     }
-
-    /**
-     * @param $override
-     */
-    public function setOverride($override){
+    
+    public function setOverride(bool $override){
         $this->getConfig()->set("override", $override);
         $this->saveConfig();
     }
-
-    /**
-     * @return bool
-     */
-    public function isDebug(){
-        return $this->getConfig()->get("debug");
+    
+    public function isDebug() : bool{
+        return (bool) $this->getConfig()->get("debug");
     }
-
-    /**
-     * @param bool $debug
-     */
-    public function setDebug($debug){
+    
+    public function setDebug(bool $debug){
         $this->getConfig()->set("debug", $debug);
         $this->saveConfig();
     }
     
-    /**
-     * @param string $message
-     */
     public function debugMessage(string $message){
         if($this->isDebug()){
             $this->getLogger()->info($this->getPrefix() . C::ITALIC . C::GRAY . $message);
